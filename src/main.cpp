@@ -5,9 +5,9 @@
 #include <ctime>
 #include <random>
 
-#include "..\\include\\CompromiseTypeDef.h"
-#include "..\\include\\Players.h"
-#include "..\\include\\CompromiseGame.h"
+#include "../include/CompromiseTypeDef.h"
+#include "../include/Players.h"
+#include "../include/CompromiseGame.h"
 
 // #include "CompromiseTypeDef.cpp"
 // #include "Players.cpp"

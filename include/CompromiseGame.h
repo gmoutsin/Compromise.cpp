@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CompromiseTypeDef.h"
+#include "Players.h"
 #include <iostream>
 #include <string>
 #include <array>

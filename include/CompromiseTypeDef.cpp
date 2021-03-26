@@ -1,5 +1,4 @@
-#include <iostream>
-#include "..\\include\\CompromiseTypeDef.h"
+#include "CompromiseTypeDef.h"
 
 inline bool validPosisionQ(Position p)
 {

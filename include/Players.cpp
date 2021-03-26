@@ -1,5 +1,4 @@
-#include "..\\include\\CompromiseTypeDef.h"
-#include "..\\include\\Players.h"
+#include "Players.h"
 
 void Player::play(Position* res) 
 {

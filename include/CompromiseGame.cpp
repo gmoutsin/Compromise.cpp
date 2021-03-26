@@ -1,5 +1,4 @@
-#include "..\\include\\CompromiseGame.h"
-
+#include "CompromiseGame.h"
 
 CompromiseGame::CompromiseGame(Player* player1, Player* player2, int newpips, int len, int gametype, bool noties) 
 {

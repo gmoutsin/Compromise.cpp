@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\\include\\CompromiseTypeDef.h"
+#include "CompromiseTypeDef.h"
 
 class Player {
     public:

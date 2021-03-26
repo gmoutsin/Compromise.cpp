@@ -35,4 +35,6 @@
 .vscode/*
 
 # cmake
-CMakeFiles/*
+*/CMakeFiles/*
+
+build/*
