@@ -37,4 +37,6 @@
 # cmake
 */CMakeFiles/*
 
+# build directory
 build/*
+!build/placeholder.txt
