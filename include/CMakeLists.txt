@@ -4,8 +4,8 @@ add_library(ComGameTypes CompromiseTypeDef.cpp)
 
 add_library(Players Players.cpp)
 
-target_link_libraries(Players PRIVATE ComGameTypes)
+target_link_libraries(Players PUBLIC ComGameTypes)
 
 add_library(ComGame CompromiseGame.cpp)
 
-target_link_libraries(ComGame PRIVATE ComGameTypes PRIVATE Players)
+target_link_libraries(ComGame PUBLIC ComGameTypes PUBLIC Players)
