@@ -35,5 +35,5 @@
 bin/*
 build/*
 debug/*
-inlude/*
+include/*
 lib/*
