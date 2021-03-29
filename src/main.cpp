@@ -5,13 +5,13 @@
 #include <ctime>
 #include <random>
 
-#include "../include/CompromiseTypeDef.h"
-#include "../include/Players.h"
-#include "../include/CompromiseGame.h"
+#include "ComGameTypes.h"
+#include "Players.h"
+#include "ComGame.h"
 
-// #include "CompromiseTypeDef.cpp"
-// #include "Players.cpp"
-// #include "CompromiseGame.cpp"
+// #include "../include/CompromiseTypeDef.cpp"
+// #include "../include/Players.cpp"
+// #include "../include/CompromiseGame.cpp"
 
 int main() 
 {

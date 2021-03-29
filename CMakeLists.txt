@@ -1,5 +1,3 @@
-# cmake -G "MinGW Makefiles" -S . -B .\build\
-
 cmake_minimum_required(VERSION 3.20.0)
 
 project(CompromiseCPP
@@ -8,22 +6,20 @@ project(CompromiseCPP
     LANGUAGES CXX
 )
 
-add_subdirectory(include)
+set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_CXX_STANDARD 14)
+add_subdirectory("${PROJECT_SOURCE_DIR}/src/ComGameTypes")
+list(APPEND LIBS_NEEDED ComGameTypes)
 
-set(SOURCES src/main.cpps)
+add_subdirectory("${PROJECT_SOURCE_DIR}/src/Players")
+list(APPEND LIBS_NEEDED Players)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_subdirectory("${PROJECT_SOURCE_DIR}/src/ComGame")
+list(APPEND LIBS_NEEDED ComGame)
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+add_executable(cg "${PROJECT_SOURCE_DIR}/src/main.cpp")
 
-target_link_directories(${PROJECT_NAME} PUBLIC build/include)
+target_link_libraries(cg PUBLIC ${LIBS_NEEDED})
 
-target_link_libraries(${PROJECT_NAME}
-    PUBLIC ComGameTypes
-    PUBLIC ComGame
-    PUBLIC Players
-)
-
-
+install(TARGETS cg DESTINATION ${PROJECT_SOURCE_DIR}/bin)

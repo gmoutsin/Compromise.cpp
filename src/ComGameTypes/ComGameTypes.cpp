@@ -1,4 +1,4 @@
-#include "CompromiseTypeDef.h"
+#include "ComGameTypes.h"
 
 inline bool validPosisionQ(Position p)
 {

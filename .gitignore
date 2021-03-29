@@ -31,12 +31,9 @@
 *.out
 *.app
 
-# vscode
 .vscode/*
-
-# cmake
-*/CMakeFiles/*
-
-# build directory
+bin/*
 build/*
-!build/placeholder.txt
+debug/*
+inlude/*
+lib/*

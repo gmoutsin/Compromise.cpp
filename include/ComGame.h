@@ -1,13 +1,13 @@
 #pragma once
 
-#include "CompromiseTypeDef.h"
-#include "Players.h"
 #include <iostream>
 #include <string>
 #include <array>
 #include <vector>
 #include <ctime>
 #include <random>
+#include "ComGameTypes.h"
+#include "Players.h"
 
 class CompromiseGame 
 {
