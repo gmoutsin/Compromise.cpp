@@ -1,7 +1,7 @@
 add_library(ComGameTypes STATIC ComGameTypes.cpp)
 
 target_include_directories(ComGameTypes
-          INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+    INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 install(TARGETS ComGameTypes
     DESTINATION ${PROJECT_SOURCE_DIR}/lib

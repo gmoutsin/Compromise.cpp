@@ -42,21 +42,21 @@ class CompromiseGame
 
     void newPlayers(Player*, Player*);
 
-    inline void prepareDisposable();
+    void prepareDisposable();
 
-    inline void placePips();
+    void placePips();
     
-    inline void placePips_unsafe();
+    void placePips_unsafe();
 
-    inline void getMoves();
+    void getMoves();
 
-    inline void getMoves_unsafe();
+    void getMoves_unsafe();
 
-    inline void updateScore();
+    void updateScore();
 
-    inline void playRound();
+    void playRound();
 
-    inline void playRound_unsafe();
+    void playRound_unsafe();
 
     void play();
 

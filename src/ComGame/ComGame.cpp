@@ -100,7 +100,7 @@ void CompromiseGame::newPlayers(Player* player1, Player* player2)
     resetGame();
 };
 
-inline void CompromiseGame::prepareDisposable() 
+void CompromiseGame::prepareDisposable() 
 {
     for (int i = 0; i < 27; i++) {
         disp1->data[i] = state1->data[i];
@@ -108,7 +108,7 @@ inline void CompromiseGame::prepareDisposable()
     }
 };
 
-inline void CompromiseGame::placePips() 
+void CompromiseGame::placePips() 
 {
     if (type == 1) // 1 is simple
     {
@@ -145,7 +145,7 @@ inline void CompromiseGame::placePips()
     
 };
 
-inline void CompromiseGame::placePips_unsafe() 
+void CompromiseGame::placePips_unsafe() 
 {
     if (type == 1) // 1 is simple
     {
@@ -172,7 +172,7 @@ inline void CompromiseGame::placePips_unsafe()
     
 };
 
-inline void CompromiseGame::getMoves() 
+void CompromiseGame::getMoves() 
 {
     if (type==0) // 0 is gamble
     {
@@ -200,7 +200,7 @@ inline void CompromiseGame::getMoves()
     }
 };
 
-inline void CompromiseGame::getMoves_unsafe() 
+void CompromiseGame::getMoves_unsafe() 
 {
     if (type==0) // 0 is gamble
     {
@@ -220,7 +220,7 @@ inline void CompromiseGame::getMoves_unsafe()
     }
 };
 
-inline void CompromiseGame::updateScore() 
+void CompromiseGame::updateScore() 
 {
     for (int8_t i = 0; i < 3; i++)
     {
@@ -243,7 +243,7 @@ inline void CompromiseGame::updateScore()
     }
 };
 
-inline void CompromiseGame::playRound() 
+void CompromiseGame::playRound() 
 {
     turn += 1;
     placePips();
@@ -251,7 +251,7 @@ inline void CompromiseGame::playRound()
     updateScore();
 };
 
-inline void CompromiseGame::playRound_unsafe() 
+void CompromiseGame::playRound_unsafe() 
 {
     turn += 1;
     placePips_unsafe();

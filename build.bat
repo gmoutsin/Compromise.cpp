@@ -3,4 +3,4 @@ cd ./build/
 make
 cmake --install .
 cd ..
-rm -Recurse ./build 
+del /Q/S build > NUL
