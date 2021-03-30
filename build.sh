@@ -1,5 +1,5 @@
 #!/bin/sh
-cmake -G "MinGW Makefiles" -S . -B ./build/
+cmake -S . -B ./build/
 cd ./build
 make
 cmake --install .

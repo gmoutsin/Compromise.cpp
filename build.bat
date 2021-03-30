@@ -4,3 +4,4 @@ make
 cmake --install .
 cd ..
 del /Q/S build > NUL
+rmdir /Q/S build > NUL
