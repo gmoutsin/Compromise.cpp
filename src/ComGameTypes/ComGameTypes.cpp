@@ -53,19 +53,11 @@ void GameState::set(int i, int val)
     data[i] = val;
 };
 
-GameState::GameState() 
-{
-    for (int8_t i = 0; i < 27; i++)
-    {
-        data[i] = 0;
-    }
-};
-
 int GameState::get(int i, int j, int k) 
 {
     if (i<0 || i>2 || j<0 || j>2 || k<0 || k>2)
     {
-        // throw error
+        /* throw error */
     }
     return data[9*i+3*j+k];
 };
@@ -77,4 +69,20 @@ int GameState::get(int i)
         /* throw error */
     }
     return data[i];
+};
+
+void GameState::minus(GameState* s)
+{
+    for (int i = 0; i < 27; i++)
+    {
+        data[i] -= s->data[i];
+    }
+}
+
+GameState::GameState() 
+{
+    for (int i = 0; i < 27; i++)
+    {
+        data[i] = 0;
+    }
 };

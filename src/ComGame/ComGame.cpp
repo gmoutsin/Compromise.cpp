@@ -1,6 +1,6 @@
 #include "ComGame.h"
 
-CompromiseGame::CompromiseGame(Player* player1, Player* player2, int newpips, int len, int gametype, bool noties) 
+CompromiseGame::CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype, bool noties) 
 {
     srand(rand() + (unsigned)time(0));
     p1 = player1;
@@ -9,8 +9,8 @@ CompromiseGame::CompromiseGame(Player* player1, Player* player2, int newpips, in
     length = len;
     type = gametype;
     noTies = noties;
-    state1 = new GameState();
-    state2 = new GameState();
+    state1 = new InnerGameState();
+    state2 = new InnerGameState();
     disp1 = new GameState();
     disp2 = new GameState();
     move1 = new Position;
@@ -93,7 +93,7 @@ void CompromiseGame::resetGame()
     
 };
 
-void CompromiseGame::newPlayers(Player* player1, Player* player2) 
+void CompromiseGame::newPlayers(AbstractPlayer* player1, AbstractPlayer* player2) 
 {
     p1 = player1;
     p2 = player2;
@@ -121,10 +121,10 @@ void CompromiseGame::placePips()
     else 
     {
         prepareDisposable();
-        p1->place(placement1);
+        p1->place(placement1, disp1, disp2, score1, score2, turn, length, newPips);
         prepareDisposable();
-        p2->place(placement2);
-        for (int8_t i = 0; i < newPips; i++)
+        p2->place(placement2, disp2, disp1, score2, score1, turn, length, newPips);
+        for (int i = 0; i < newPips; i++)
         {
             if (invalidPosisionQ( (*placement1)[i] ))
             {
@@ -136,7 +136,7 @@ void CompromiseGame::placePips()
             }
         }
         
-        for (int8_t i = 0; i < newPips; i++)
+        for (int i = 0; i < newPips; i++)
         {
             state1->inc((*placement1)[i]);
             state2->inc((*placement2)[i]);
@@ -159,11 +159,11 @@ void CompromiseGame::placePips_unsafe()
     else 
     {
         prepareDisposable();
-        p1->place(placement1);
+        p1->place(placement1, disp1, disp2, score1, score2, turn, length, newPips);
         prepareDisposable();
-        p2->place(placement2);
+        p2->place(placement2, disp2, disp1, score2, score1, turn, length, newPips);
         
-        for (int8_t i = 0; i < newPips; i++)
+        for (int i = 0; i < newPips; i++)
         {
             state1->inc((*placement1)[i]);
             state2->inc((*placement2)[i]);
@@ -186,9 +186,9 @@ void CompromiseGame::getMoves()
     else
     {
         prepareDisposable();
-        p1->play(move1);
+        p1->play(move1, disp1, disp2, score1, score2, turn, length, newPips);
         prepareDisposable();
-        p2->play(move2);
+        p2->play(move2, disp2, disp1, score2, score1, turn, length, newPips);
         if (invalidPosisionQ(*move1))
         {
             /* throw error */
@@ -214,19 +214,19 @@ void CompromiseGame::getMoves_unsafe()
     else
     {
         prepareDisposable();
-        p1->play(move1);
+        p1->play(move1, disp1, disp2, score1, score2, turn, length, newPips);
         prepareDisposable();
-        p2->play(move2);
+        p2->play(move2, disp2, disp1, score2, score1, turn, length, newPips);
     }
 };
 
 void CompromiseGame::updateScore() 
 {
-    for (int8_t i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
     {
-        for (int8_t j = 0; j < 3; j++)
+        for (int j = 0; j < 3; j++)
         {
-            for (int8_t k = 0; k < 3; k++)
+            for (int k = 0; k < 3; k++)
             {
                 if ( !(i==(*move1)[0] || i==(*move2)[0] || j==(*move1)[1] || j==(*move2)[1] || k==(*move1)[2] || k==(*move2)[2]) )
                 {
@@ -241,6 +241,12 @@ void CompromiseGame::updateScore()
         }
         
     }
+};
+
+void CompromiseGame::getScore(int* res) 
+{
+    res[0] = score1;
+    res[1] = score2;
 };
 
 void CompromiseGame::playRound() 
@@ -265,7 +271,6 @@ void CompromiseGame::play()
     {
         playRound();
     }
-    
 };
 
 void CompromiseGame::play_unsafe() 
@@ -274,5 +279,4 @@ void CompromiseGame::play_unsafe()
     {
         playRound_unsafe();
     }
-    
 };

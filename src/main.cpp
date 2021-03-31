@@ -1,24 +1,48 @@
 #include <iostream>
-#include <array>
-#include <vector>
 #include <string>
-#include <ctime>
-#include <random>
-
 #include "ComGameTypes.h"
 #include "Players.h"
 #include "ComGame.h"
 
-// #include "../include/CompromiseTypeDef.cpp"
-// #include "../include/Players.cpp"
-// #include "../include/CompromiseGame.cpp"
-
 int main() 
 {
-    RandomPlayer p;
-    CompromiseGame g(&p,&p,120,1);
-    srand(rand() + (unsigned)time(0));
-    g.play_unsafe();
-    std::cout << g.score1 << ":" << g.score2 << '\n';
+    int res[2] = {0,0};
+    int score[2];
+    RandomPlayer pr;
+    DeterminedPlayer pd;
+    GreedyPlayer pg;
+    CompromiseGame g(&pd,&pr,20,10);
+    for (int i = 0; i < 1000; i++)
+    {
+        g.resetGame();
+        g.play_unsafe();
+        g.getScore(score);
+        if (score[0] > score[1])
+        {
+            res[0] += 1;
+        }
+        else
+        {
+            res[1] += 1;
+        }  
+    }
+    std::cout << "DeterminedPlayer vs RandomPlayer: " << res[0] << " " << res[1] << '\n';
+    res[0] = res[1] = 0;
+    g.newPlayers(&pg,&pd);
+    for (int i = 0; i < 1000; i++)
+    {
+        g.resetGame();
+        g.play_unsafe();
+        g.getScore(score);
+        if (score[0] > score[1])
+        {
+            res[0] += 1;
+        }
+        else
+        {
+            res[1] += 1;
+        }  
+    }
+    std::cout << "GreedyPlayer vs DeterminedPlayer: " << res[0] << " " << res[1] << '\n';
     return 0;
 };

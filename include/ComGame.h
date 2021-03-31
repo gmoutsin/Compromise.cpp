@@ -11,11 +11,11 @@
 
 class CompromiseGame 
 {
-    public:
-    Player* p1;
-    Player* p2;
-    GameState* state1;
-    GameState* state2;
+    private:
+    AbstractPlayer* p1;
+    AbstractPlayer* p2;
+    InnerGameState* state1;
+    InnerGameState* state2;
     GameState* disp1;
     GameState* disp2;
     Position* move1;
@@ -30,35 +30,23 @@ class CompromiseGame
     bool noTies;
     int type;
 
-    CompromiseGame(Player* player1, Player* player2, int newpips, int len, int gametype = 1, bool noties = true);
-    
-    ~CompromiseGame();
-
     void printMoves();
-
     void printState();
-
-    void resetGame();
-
-    void newPlayers(Player*, Player*);
-
     void prepareDisposable();
-
     void placePips();
-    
     void placePips_unsafe();
-
     void getMoves();
-
     void getMoves_unsafe();
-
     void updateScore();
-
     void playRound();
-
     void playRound_unsafe();
 
+    public:
+    void getScore(int*);
+    void resetGame();
+    void newPlayers(AbstractPlayer*, AbstractPlayer*);
     void play();
-
     void play_unsafe();
+    CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype = 1, bool noties = true);
+    ~CompromiseGame();
 };
