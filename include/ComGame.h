@@ -32,7 +32,7 @@ class CompromiseGame
 
     void printMoves();
     void printState();
-    void prepareDisposable();
+    void prepareDisposableStates();
     void placePips();
     void placePips_unsafe();
     void getMoves();

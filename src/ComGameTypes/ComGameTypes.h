@@ -24,6 +24,8 @@ class GameState
     int get(int, int, int);
     int get(int);
     void minus(GameState*);
+    bool operator==(GameState);
+    void copy(GameState* s);
     GameState();
 };
 

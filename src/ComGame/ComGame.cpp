@@ -1,39 +1,5 @@
 #include "ComGame.h"
 
-CompromiseGame::CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype, bool noties) 
-{
-    srand(rand() + (unsigned)time(0));
-    p1 = player1;
-    p2 = player2;
-    newPips = newpips;
-    length = len;
-    type = gametype;
-    noTies = noties;
-    state1 = new InnerGameState();
-    state2 = new InnerGameState();
-    disp1 = new GameState();
-    disp2 = new GameState();
-    move1 = new Position;
-    move2 = new Position;
-    placement1 = new PlacementArray(newpips);
-    placement2 = new PlacementArray(newpips);
-    score1 = 0;
-    score2 = 0;
-    turn = 0;
-};
-
-CompromiseGame::~CompromiseGame() 
-{
-    delete state1;
-    delete state2;
-    delete disp1;
-    delete disp2;
-    delete move1;
-    delete move2;
-    delete placement1;
-    delete placement2;
-}
-
 void CompromiseGame::printMoves()
 {
     std::cout << "Player 1 move: " << (int) (*move1)[0]+1 << (int) (*move1)[2]+1 << (int) (*move1)[1]+1 << "\n";
@@ -90,7 +56,6 @@ void CompromiseGame::resetGame()
         state1->data[i] = 0;
         state2->data[i] = 0;
     }
-    
 };
 
 void CompromiseGame::newPlayers(AbstractPlayer* player1, AbstractPlayer* player2) 
@@ -100,7 +65,7 @@ void CompromiseGame::newPlayers(AbstractPlayer* player1, AbstractPlayer* player2
     resetGame();
 };
 
-void CompromiseGame::prepareDisposable() 
+void CompromiseGame::prepareDisposableStates() 
 {
     for (int i = 0; i < 27; i++) {
         disp1->data[i] = state1->data[i];
@@ -120,9 +85,9 @@ void CompromiseGame::placePips()
     }
     else 
     {
-        prepareDisposable();
+        prepareDisposableStates();
         p1->place(placement1, disp1, disp2, score1, score2, turn, length, newPips);
-        prepareDisposable();
+        prepareDisposableStates();
         p2->place(placement2, disp2, disp1, score2, score1, turn, length, newPips);
         for (int i = 0; i < newPips; i++)
         {
@@ -135,7 +100,6 @@ void CompromiseGame::placePips()
                 /* throw error */
             }
         }
-        
         for (int i = 0; i < newPips; i++)
         {
             state1->inc((*placement1)[i]);
@@ -154,13 +118,12 @@ void CompromiseGame::placePips_unsafe()
             state1->inc(rand() % 3, rand() % 3, rand() % 3);
             state2->inc(rand() % 3, rand() % 3, rand() % 3);
         }
-        
     }
     else 
     {
-        prepareDisposable();
+        prepareDisposableStates();
         p1->place(placement1, disp1, disp2, score1, score2, turn, length, newPips);
-        prepareDisposable();
+        prepareDisposableStates();
         p2->place(placement2, disp2, disp1, score2, score1, turn, length, newPips);
         
         for (int i = 0; i < newPips; i++)
@@ -169,7 +132,6 @@ void CompromiseGame::placePips_unsafe()
             state2->inc((*placement2)[i]);
         }
     }
-    
 };
 
 void CompromiseGame::getMoves() 
@@ -185,9 +147,9 @@ void CompromiseGame::getMoves()
     }
     else
     {
-        prepareDisposable();
+        prepareDisposableStates();
         p1->play(move1, disp1, disp2, score1, score2, turn, length, newPips);
-        prepareDisposable();
+        prepareDisposableStates();
         p2->play(move2, disp2, disp1, score2, score1, turn, length, newPips);
         if (invalidPosisionQ(*move1))
         {
@@ -213,9 +175,9 @@ void CompromiseGame::getMoves_unsafe()
     }
     else
     {
-        prepareDisposable();
+        prepareDisposableStates();
         p1->play(move1, disp1, disp2, score1, score2, turn, length, newPips);
-        prepareDisposable();
+        prepareDisposableStates();
         p2->play(move2, disp2, disp1, score2, score1, turn, length, newPips);
     }
 };
@@ -235,11 +197,8 @@ void CompromiseGame::updateScore()
                     state1->uset(i,j,k,0);
                     state2->uset(i,j,k,0);
                 }
-                
             }
-            
         }
-        
     }
 };
 
@@ -275,8 +234,42 @@ void CompromiseGame::play()
 
 void CompromiseGame::play_unsafe() 
 {
-    while (turn<length || (noTies && score1==score2))
+    while (turn < length || (noTies && score1==score2))
     {
         playRound_unsafe();
     }
 };
+
+CompromiseGame::CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype, bool noties) 
+{
+    srand(rand() + (unsigned)time(0));
+    p1 = player1;
+    p2 = player2;
+    newPips = newpips;
+    length = len;
+    type = gametype;
+    noTies = noties;
+    state1 = new InnerGameState();
+    state2 = new InnerGameState();
+    disp1 = new GameState();
+    disp2 = new GameState();
+    move1 = new Position;
+    move2 = new Position;
+    placement1 = new PlacementArray(newpips);
+    placement2 = new PlacementArray(newpips);
+    score1 = 0;
+    score2 = 0;
+    turn = 0;
+};
+
+CompromiseGame::~CompromiseGame() 
+{
+    delete state1;
+    delete state2;
+    delete disp1;
+    delete disp2;
+    delete move1;
+    delete move2;
+    delete placement1;
+    delete placement2;
+}
