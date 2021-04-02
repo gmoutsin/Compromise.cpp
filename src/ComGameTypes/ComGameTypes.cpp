@@ -79,6 +79,26 @@ void GameState::minus(GameState* s)
     }
 }
 
+bool GameState::operator==(GameState s)
+{
+    for (int i = 0; i < 27; i++)
+    {
+        if (data[i] != s.data[i])
+        {
+            return false;
+        }
+    }
+        return true;
+}
+
+void GameState::copy(GameState* s)
+{
+    for (int i = 0; i < 27; i++)
+    {
+        data[i] = s->data[i];
+    }
+}
+
 GameState::GameState() 
 {
     for (int i = 0; i < 27; i++)

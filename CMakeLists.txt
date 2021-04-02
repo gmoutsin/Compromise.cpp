@@ -9,6 +9,8 @@ project(CompromiseCPP
 set(CMAKE_CXX_STANDARD 17)
 # set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# message(${CMAKE_CXX_FLAGS_RELEASE})
+
 add_subdirectory("${PROJECT_SOURCE_DIR}/src/ComGameTypes")
 list(APPEND LIBS_NEEDED ComGameTypes)
 
