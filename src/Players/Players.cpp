@@ -1,38 +1,7 @@
 #include "Players.h"
 
-void OscillatingPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void OscillatingPlayer::initialise(int, int, int, bool)
 {
-    (*res)[0] = (*move)[0];
-    (*res)[1] = (*move)[1];
-    (*res)[2] = (*move)[2];
-};
-
-void OscillatingPlayer::place(PlacementArray* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
-{
-    for (int i = 0; i < newPips; i++)
-    {
-        if (flip)
-        {
-            (*res)[i][0] = (*pos1)[0];
-            (*res)[i][1] = (*pos1)[1];
-            (*res)[i][2] = (*pos1)[2];
-        }
-        else
-        {
-            (*res)[i][0] = (*pos2)[0];
-            (*res)[i][1] = (*pos2)[1];
-            (*res)[i][2] = (*pos2)[2];
-        }
-    };
-    flip = (flip+1) & 1;
-};
-
-OscillatingPlayer::OscillatingPlayer()
-{
-    pos1 = new Position;
-    pos2 = new Position;
-    move = new Position;
-    flip = 0;
     int j1 = 0;
     int j2 = 0;
     int j3 = 0;
@@ -75,6 +44,42 @@ OscillatingPlayer::OscillatingPlayer()
     }
 };
 
+void OscillatingPlayer::play(Position* res, GameState*, GameState*, int, int, int, int)
+{
+    (*res)[0] = (*move)[0];
+    (*res)[1] = (*move)[1];
+    (*res)[2] = (*move)[2];
+};
+
+void OscillatingPlayer::place(PlacementArray* res, GameState*, GameState*, int, int, int, int newPips)
+{
+    for (int i = 0; i < newPips; i++)
+    {
+        if (flip)
+        {
+            (*res)[i][0] = (*pos1)[0];
+            (*res)[i][1] = (*pos1)[1];
+            (*res)[i][2] = (*pos1)[2];
+        }
+        else
+        {
+            (*res)[i][0] = (*pos2)[0];
+            (*res)[i][1] = (*pos2)[1];
+            (*res)[i][2] = (*pos2)[2];
+        }
+        flip = (flip+1) & 1;
+    };
+};
+
+OscillatingPlayer::OscillatingPlayer()
+{
+    pos1 = new Position;
+    pos2 = new Position;
+    move = new Position;
+    flip = 0;
+    initialise(0, 0, 0, false);
+};
+
 OscillatingPlayer::~OscillatingPlayer()
 {
     delete pos1;
@@ -82,14 +87,14 @@ OscillatingPlayer::~OscillatingPlayer()
     delete move;
 };
 
-void RandomPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void RandomPlayer::play(Position* res, GameState*, GameState*, int, int, int, int)
 {
     (*res)[0] = rand() % 3;
     (*res)[1] = rand() % 3;
     (*res)[2] = rand() % 3;
 };
 
-void RandomPlayer::place(PlacementArray* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void RandomPlayer::place(PlacementArray* res, GameState*, GameState*, int, int, int, int newPips)
 {
     for (int i = 0; i < newPips; i++)
     {
@@ -99,7 +104,7 @@ void RandomPlayer::place(PlacementArray* res, GameState* mystate, GameState* opp
     };
 };
 
-void MyopicPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void MyopicPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int newPips)
 {
     mystate->minus(oppstate);
     int p1, p2, p3, v = INT_MIN;
@@ -122,11 +127,8 @@ void MyopicPlayer::play(Position* res, GameState* mystate, GameState* oppstate, 
                         p2 = j;
                         p3 = k;
                     }
-                    
                 }
-                
             }
-            
         }
         mystate->uset(p1,p2,p3,INT_MIN);
         v = INT_MIN;
@@ -181,12 +183,12 @@ void MyopicPlayer::play(Position* res, GameState* mystate, GameState* oppstate, 
     }
 };
 
-void MyopicPlayer::place(PlacementArray* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void MyopicPlayer::place(PlacementArray* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int newPips)
 {
     int j1 = 0;
     int j2 = 0;
     int j3 = 0;
-    play(pos, mystate, oppstate, myscore, oppscore, turn, length, newPips);
+    play(pos, mystate, oppstate, myscore, oppscore, turn, newPips);
     for (int i = 0; i < 3; i++)
     {
         if (i != (*pos)[0])
@@ -229,7 +231,7 @@ MyopicPlayer::~MyopicPlayer()
     delete t3;
 };
 
-void GreedyPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void GreedyPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int newPips)
 {
     int s1, s2, s3, m1, m2, m3, c1[3], c2[3], c3[3];
     s1 = s2 = s3 = 0;
@@ -273,7 +275,7 @@ void GreedyPlayer::play(Position* res, GameState* mystate, GameState* oppstate, 
     }
 };
 
-void SmartGreedyPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int length, int newPips)
+void SmartGreedyPlayer::play(Position* res, GameState* mystate, GameState* oppstate, int myscore, int oppscore, int turn, int newPips)
 {
     int tmpres[3] = {-1,-1,-1};
     int mins[3] = {INT_MAX,INT_MAX,INT_MAX};

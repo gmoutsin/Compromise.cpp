@@ -5,8 +5,9 @@
 class AbstractPlayer
 {
     public:
-    virtual void play(Position*, GameState*, GameState*, int, int, int, int, int) = 0;
-    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int, int) = 0;
+    virtual void play(Position*, GameState*, GameState*, int, int, int, int) = 0;
+    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int) = 0;
+    virtual void initialise(int, int, int, bool){};
 };
 
 class OscillatingPlayer: public AbstractPlayer
@@ -18,8 +19,9 @@ class OscillatingPlayer: public AbstractPlayer
     int flip;
 
     public:
-    virtual void play(Position*, GameState*, GameState*, int, int, int, int, int);
-    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int, int);
+    virtual void play(Position*, GameState*, GameState*, int, int, int, int);
+    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int);
+    virtual void initialise(int, int, int, bool);
     OscillatingPlayer();
     ~OscillatingPlayer();
 };
@@ -27,11 +29,11 @@ class OscillatingPlayer: public AbstractPlayer
 class RandomPlayer: public AbstractPlayer
 {
     public:
-    virtual void play(Position*, GameState*, GameState*, int, int, int, int, int);
-    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int, int);
+    virtual void play(Position*, GameState*, GameState*, int, int, int, int);
+    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int);
 };
 
-class MyopicPlayer: public RandomPlayer
+class MyopicPlayer: public AbstractPlayer
 {
     private:
     Position* pos;
@@ -40,8 +42,8 @@ class MyopicPlayer: public RandomPlayer
     int* t3;
 
     public:
-    virtual void play(Position*, GameState*, GameState*, int, int, int, int, int);
-    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int, int);
+    virtual void play(Position*, GameState*, GameState*, int, int, int, int);
+    virtual void place(PlacementArray*, GameState*, GameState*, int, int, int, int);
     MyopicPlayer();
     ~MyopicPlayer();
 };
@@ -49,11 +51,11 @@ class MyopicPlayer: public RandomPlayer
 class GreedyPlayer: public MyopicPlayer
 {
     public:
-    virtual void play(Position*, GameState*, GameState*, int, int, int, int, int);
+    virtual void play(Position*, GameState*, GameState*, int, int, int, int);
 };
 
 class SmartGreedyPlayer: public MyopicPlayer
 {
     public:
-    virtual void play(Position*, GameState*, GameState*, int, int, int, int, int);
+    virtual void play(Position*, GameState*, GameState*, int, int, int, int);
 };

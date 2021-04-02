@@ -86,9 +86,9 @@ void CompromiseGame::placePips()
     else 
     {
         prepareDisposableStates();
-        p1->place(placement1, disp1, disp2, score1, score2, turn, length, newPips);
+        p1->place(placement1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->place(placement2, disp2, disp1, score2, score1, turn, length, newPips);
+        p2->place(placement2, disp2, disp1, score2, score1, turn, newPips);
         for (int i = 0; i < newPips; i++)
         {
             if (invalidPosisionQ( (*placement1)[i] ))
@@ -122,9 +122,9 @@ void CompromiseGame::placePips_unsafe()
     else 
     {
         prepareDisposableStates();
-        p1->place(placement1, disp1, disp2, score1, score2, turn, length, newPips);
+        p1->place(placement1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->place(placement2, disp2, disp1, score2, score1, turn, length, newPips);
+        p2->place(placement2, disp2, disp1, score2, score1, turn, newPips);
         
         for (int i = 0; i < newPips; i++)
         {
@@ -148,9 +148,9 @@ void CompromiseGame::getMoves()
     else
     {
         prepareDisposableStates();
-        p1->play(move1, disp1, disp2, score1, score2, turn, length, newPips);
+        p1->play(move1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->play(move2, disp2, disp1, score2, score1, turn, length, newPips);
+        p2->play(move2, disp2, disp1, score2, score1, turn, newPips);
         if (invalidPosisionQ(*move1))
         {
             /* throw error */
@@ -176,9 +176,9 @@ void CompromiseGame::getMoves_unsafe()
     else
     {
         prepareDisposableStates();
-        p1->play(move1, disp1, disp2, score1, score2, turn, length, newPips);
+        p1->play(move1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->play(move2, disp2, disp1, score2, score1, turn, length, newPips);
+        p2->play(move2, disp2, disp1, score2, score1, turn, newPips);
     }
 };
 
@@ -226,6 +226,8 @@ void CompromiseGame::playRound_unsafe()
 
 void CompromiseGame::play() 
 {
+    p1->initialise(type, length, newPips, noTies);
+    p2->initialise(type, length, newPips, noTies);
     while (turn<length || (noTies && score1==score2))
     {
         playRound();
@@ -234,6 +236,8 @@ void CompromiseGame::play()
 
 void CompromiseGame::play_unsafe() 
 {
+    p1->initialise(type, length, newPips, noTies);
+    p2->initialise(type, length, newPips, noTies);
     while (turn < length || (noTies && score1==score2))
     {
         playRound_unsafe();
