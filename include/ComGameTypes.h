@@ -14,17 +14,17 @@ class GameState
 {
     public:
     std::array<int, 27> data;
-    int uget(int, int, int);
-    void uset(int, int, int, int) ;
+    int uget(int i, int j, int k);
+    void uset(int i, int j, int k, int v) ;
     void set(Position, int);
     void inc(Position);
-    void inc(int, int, int) ;
-    void set(int, int, int, int) ;
-    void set(int, int);
-    int get(int, int, int);
-    int get(int);
-    void minus(GameState*);
-    bool operator==(GameState);
+    void inc(int i, int j, int k) ;
+    void set(int i, int j, int k, int v) ;
+    void set(int i, int v);
+    int get(int i, int j, int k);
+    int get(int i);
+    void minus(GameState* s);
+    bool operator==(GameState s);
     void copy(GameState* s);
     GameState();
 };

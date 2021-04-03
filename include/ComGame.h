@@ -42,9 +42,9 @@ class CompromiseGame
     void playRound_unsafe();
 
     public:
-    void getScore(int*);
+    void getScore(int* res);
     void resetGame();
-    void newPlayers(AbstractPlayer*, AbstractPlayer*);
+    void newPlayers(AbstractPlayer* player1, AbstractPlayer* player2);
     void play();
     void play_unsafe();
     CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype = 1, bool noties = true);
