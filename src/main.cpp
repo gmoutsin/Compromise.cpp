@@ -39,7 +39,7 @@ int main()
     int res[3] = {0,0,0};
     int score[2];
     int times = 10000;
-    int type = 2;
+    int type = 1;
     bool noties = false;
     int rounds = 10;
     int pips = 20;

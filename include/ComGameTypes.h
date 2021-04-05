@@ -9,6 +9,7 @@ using PlacementArray = std::vector<Position>;
 
 bool validPosisionQ(Position p);
 bool invalidPosisionQ(Position p);
+void random(Position* pos);
 
 class GameState 
 {

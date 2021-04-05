@@ -148,9 +148,9 @@ void CompromiseGame::getMoves()
     else
     {
         prepareDisposableStates();
-        p1->play(move1, disp1, disp2, score1, score2, turn, newPips);
+        p1->move(move1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->play(move2, disp2, disp1, score2, score1, turn, newPips);
+        p2->move(move2, disp2, disp1, score2, score1, turn, newPips);
         if (invalidPosisionQ(*move1))
         {
             /* throw error */
@@ -176,9 +176,9 @@ void CompromiseGame::getMoves_unsafe()
     else
     {
         prepareDisposableStates();
-        p1->play(move1, disp1, disp2, score1, score2, turn, newPips);
+        p1->move(move1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->play(move2, disp2, disp1, score2, score1, turn, newPips);
+        p2->move(move2, disp2, disp1, score2, score1, turn, newPips);
     }
 };
 

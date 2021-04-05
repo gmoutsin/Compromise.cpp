@@ -1,6 +1,6 @@
 #include "Players.h"
 
-void OscillatingPlayer::initialise(int, int, int, bool)
+void AbstractOscillatingPlacer::initialise(int, int, int, bool)
 {
     int j1 = 0;
     int j2 = 0;
@@ -8,9 +8,7 @@ void OscillatingPlayer::initialise(int, int, int, bool)
     int t1[2];
     int t2[2];
     int t3[2];
-    (*pos1)[0] = rand() % 3;
-    (*pos1)[1] = rand() % 3;
-    (*pos1)[2] = rand() % 3;
+    random(pos1);
     for (int i = 0; i < 3; i++)
     {
         if (i != (*pos1)[0])
@@ -38,20 +36,13 @@ void OscillatingPlayer::initialise(int, int, int, bool)
         {
             if ( (*pos1)[j] != i && (*pos2)[j] != i )
             {
-                (*move)[j] = i;
+                (*block)[j] = i;
             }
         }
     }
 };
 
-void OscillatingPlayer::play(Position* res, GameState*, GameState*, int, int, int, int)
-{
-    (*res)[0] = (*move)[0];
-    (*res)[1] = (*move)[1];
-    (*res)[2] = (*move)[2];
-};
-
-void OscillatingPlayer::place(PlacementArray* res, GameState*, GameState*, int, int, int, int newPips)
+void AbstractOscillatingPlacer::place(PlacementArray* res, GameState*, GameState*, int, int, int, int newPips)
 {
     for (int i = 0; i < newPips; i++)
     {
@@ -71,30 +62,46 @@ void OscillatingPlayer::place(PlacementArray* res, GameState*, GameState*, int, 
     };
 };
 
-OscillatingPlayer::OscillatingPlayer()
+AbstractOscillatingPlacer::AbstractOscillatingPlacer()
 {
     pos1 = new Position;
     pos2 = new Position;
-    move = new Position;
+    block = new Position;
     flip = 0;
     initialise(0, 0, 0, false);
 };
 
-OscillatingPlayer::~OscillatingPlayer()
+AbstractOscillatingPlacer::~AbstractOscillatingPlacer()
 {
     delete pos1;
     delete pos2;
-    delete move;
+    delete block;
 };
 
-void RandomPlayer::play(Position* res, GameState*, GameState*, int, int, int, int)
+void AbstractConstantMover::move(Position* res, GameState*, GameState*, int, int, int, int)
 {
-    (*res)[0] = rand() % 3;
-    (*res)[1] = rand() % 3;
-    (*res)[2] = rand() % 3;
+    (*res)[0] = (*block)[0];
+    (*res)[1] = (*block)[1];
+    (*res)[2] = (*block)[2];
 };
 
-void RandomPlayer::place(PlacementArray* res, GameState*, GameState*, int, int, int, int newPips)
+AbstractConstantMover::AbstractConstantMover()
+{
+    block = new Position;
+    random(block);
+};
+
+AbstractConstantMover::~AbstractConstantMover()
+{
+    delete block;
+};
+
+void AbstractRandomMover::move(Position* res, GameState*, GameState*, int, int, int, int)
+{
+    random(res);
+};
+
+void AbstractRandomPlacer::place(PlacementArray* res, GameState*, GameState*, int, int, int, int newPips)
 {
     for (int i = 0; i < newPips; i++)
     {
@@ -104,7 +111,7 @@ void RandomPlayer::place(PlacementArray* res, GameState*, GameState*, int, int, 
     };
 };
 
-void MyopicPlayer::play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips)
+void AbstractMyopicMover::move(Position* res, GameState* myState, GameState* oppState, int, int, int, int newPips)
 {
     myState->minus(oppState);
     int p1, p2, p3, v = INT_MIN;
@@ -183,25 +190,29 @@ void MyopicPlayer::play(Position* res, GameState* myState, GameState* oppState, 
     }
 };
 
-void MyopicPlayer::place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips)
+void AbstractGreedyPlacer::place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips)
 {
     int j1 = 0;
     int j2 = 0;
     int j3 = 0;
-    play(pos, myState, oppState, myScore, oppScore, turn, newPips);
+    int t1[2];
+    int t2[2];
+    int t3[2];
+    Position pos;
+    move(&pos, myState, oppState, myScore, oppScore, turn, newPips);
     for (int i = 0; i < 3; i++)
     {
-        if (i != (*pos)[0])
+        if (i != pos[0])
         {
             t1[j1] = i;
             j1 += 1;
         }
-        if (i != (*pos)[1])
+        if (i != pos[1])
         {
             t2[j2] = i;
             j2 += 1;
         }
-        if (i != (*pos)[2])
+        if (i != pos[2])
         {
             t3[j3] = i;
             j3 += 1;
@@ -215,23 +226,7 @@ void MyopicPlayer::place(PlacementArray* res, GameState* myState, GameState* opp
     }
 }
 
-MyopicPlayer::MyopicPlayer()
-{
-    pos = new Position;
-    t1 = new int[2];
-    t2 = new int[2];
-    t3 = new int[2];
-};
-
-MyopicPlayer::~MyopicPlayer()
-{
-    delete pos;
-    delete t1;
-    delete t2;
-    delete t3;
-};
-
-void GreedyPlayer::play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips)
+void AbstractGreedyMover::move(Position* res, GameState* myState, GameState* oppState, int, int, int, int newPips)
 {
     int s1, s2, s3, m1, m2, m3, c1[3], c2[3], c3[3];
     s1 = s2 = s3 = 0;
@@ -275,7 +270,7 @@ void GreedyPlayer::play(Position* res, GameState* myState, GameState* oppState, 
     }
 };
 
-void SmartGreedyPlayer::play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips)
+void AbstractSmartGreedyMover::move(Position* res, GameState* myState, GameState* oppState, int, int, int, int newPips)
 {
     int tmpres[3] = {-1,-1,-1};
     int mins[3] = {INT_MAX,INT_MAX,INT_MAX};

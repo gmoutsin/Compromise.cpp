@@ -5,11 +5,14 @@
 /**
  * Abstract player class, every player class has to extend this one.
  *
- * Each player class has to implement the play() and place() functions.
+ * Each player class has to implement the move() and place() functions.
  * The class also defines a default initialise() function.
  */
 class AbstractPlayer
 {
+    protected:
+    Position* block;
+
     public:
 
     /**
@@ -27,7 +30,7 @@ class AbstractPlayer
      * @param turn The turn number.
      * @param newPips The number of pips to be placed each turn.
      */
-    virtual void play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips) = 0;
+    virtual void move(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips) = 0;
 
     /**
      * This is a pure virtual function of AbstractPlayer.
@@ -59,48 +62,35 @@ class AbstractPlayer
     virtual void initialise(int type, int length, int newPips, bool noTies){};
 };
 
-class OscillatingPlayer: public AbstractPlayer
+class AbstractOscillatingPlacer: public virtual AbstractPlayer
 {
-    private:
+    protected:
     Position* pos1;
     Position* pos2;
-    Position* move;
     int flip;
 
     public:
-    virtual void play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
-    virtual void place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
     virtual void initialise(int type, int length, int newPips, bool noTies);
-    OscillatingPlayer();
-    ~OscillatingPlayer();
+    virtual void place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+    AbstractOscillatingPlacer();
+    ~AbstractOscillatingPlacer();
 };
 
-/**
- * This player plays randomly.
- *
- * Both play() and place() functions of the class give random results.
- */
-class RandomPlayer: public AbstractPlayer
+
+class AbstractConstantMover: public virtual AbstractPlayer
 {
     public:
+    virtual void move(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+    AbstractConstantMover();
+    ~AbstractConstantMover();
+};
 
-    /**
-     * This function provides a random move. 
-     * 
-     * @note This function does not return anything. The player's move is stored in the first argument.
-     * 
-     * @note This function ignores its arguments.
-     * 
-     * @param res The player's move should me stored here.
-     * @param myState The position of the player's pips.
-     * @param oppState The position of the opponent's pips.
-     * @param myScore The player's score.
-     * @param oppScore The opponents score.
-     * @param turn The turn number.
-     * @param newPips The number of pips to be placed each turn.
-     */
-    virtual void play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+class OscillatingPlayer: public AbstractConstantMover, public AbstractOscillatingPlacer {};
 
+class AbstractRandomPlacer: public virtual AbstractPlayer
+{
+    public:
+    
     /**
      * This function provides random pip placement. 
      * 
@@ -119,17 +109,66 @@ class RandomPlayer: public AbstractPlayer
     virtual void place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
 };
 
-/**
- * This player makes sure that it doesn't exclude its best positions.
- */
-class MyopicPlayer: public AbstractPlayer
+class AbstractRandomMover: public virtual AbstractPlayer
 {
-    private:
-    Position* pos;
-    int* t1;
-    int* t2;
-    int* t3;
+    public:
 
+    /**
+     * This function provides a random move. 
+     * 
+     * @note This function does not return anything. The player's move is stored in the first argument.
+     * 
+     * @note This function ignores its arguments.
+     * 
+     * @param res The player's move should me stored here.
+     * @param myState The position of the player's pips.
+     * @param oppState The position of the opponent's pips.
+     * @param myScore The player's score.
+     * @param oppScore The opponents score.
+     * @param turn The turn number.
+     * @param newPips The number of pips to be placed each turn.
+     */
+    virtual void move(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+};
+
+/**
+ * This player plays randomly.
+ *
+ * Both move() and place() functions of the class give random results.
+ */
+class RandomPlayer: public AbstractRandomMover, public AbstractRandomPlacer {};
+
+class AbstractGreedyPlacer: public virtual AbstractPlayer
+{
+    public:
+
+    /**
+     * This function provides pip placement. 
+     * 
+     * This function first calls the move() function and then it places the pips
+     * randomly making sure that they wouldn't be excluded by the move.
+     * 
+     * For example if move() returns {0,0,0} then for each pip a position that does not contain 0,
+     * i.e {1,1,1}, {2,1,1}, {1,2,1}, {1,1,2}, {2,2,1}, {2,1,2}, {1,2,2}, {2,2,2},
+     * is chosen uniformely at random.
+     * 
+     * @note This function does not return anything. The player's pip placement is stored in the first argument.
+     * 
+     * @note This function ignores its `myScore` `oppScore` `turn` `newPips` arguments.
+     * 
+     * @param res The player's move should me stored here. This is a Position array of length newPips.
+     * @param myState The position of the player's pips.
+     * @param oppState The position of the opponent's pips.
+     * @param myScore The player's score.
+     * @param oppScore The opponents score.
+     * @param turn The turn number.
+     * @param newPips The number of pips to be placed each turn.
+     */
+    virtual void place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+};
+
+class AbstractMyopicMover: public virtual AbstractPlayer
+{
     public:
 
     /**
@@ -157,43 +196,26 @@ class MyopicPlayer: public AbstractPlayer
      * @param turn The turn number.
      * @param newPips The number of pips to be placed each turn.
      */
-    virtual void play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
-
-    /**
-     * This function provides pip placement. 
-     * 
-     * This function first calls the play() function and then it places the pips
-     * randomly making sure that they wouldn't be excluded by the move.
-     * 
-     * For example if play() returns {0,0,0} then for each pip a position that does not contain 0,
-     * i.e {1,1,1}, {2,1,1}, {1,2,1}, {1,1,2}, {2,2,1}, {2,1,2}, {1,2,2}, {2,2,2},
-     * is chosen uniformely at random.
-     * 
-     * @note This function does not return anything. The player's pip placement is stored in the first argument.
-     * 
-     * @note This function ignores its `myScore` `oppScore` `turn` `newPips` arguments.
-     * 
-     * @param res The player's move should me stored here. This is a Position array of length newPips.
-     * @param myState The position of the player's pips.
-     * @param oppState The position of the opponent's pips.
-     * @param myScore The player's score.
-     * @param oppScore The opponents score.
-     * @param turn The turn number.
-     * @param newPips The number of pips to be placed each turn.
-     */
-    virtual void place(PlacementArray* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
-    MyopicPlayer();
-    ~MyopicPlayer();
+    virtual void move(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
 };
 
-class GreedyPlayer: public MyopicPlayer
+/**
+ * This player makes sure that it doesn't exclude its best positions.
+ */
+class MyopicPlayer: public AbstractMyopicMover, public AbstractGreedyPlacer {};
+
+class AbstractGreedyMover: public virtual AbstractPlayer
 {
     public:
-    virtual void play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+    virtual void move(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
 };
 
-class SmartGreedyPlayer: public MyopicPlayer
+class AbstractSmartGreedyMover: public virtual AbstractPlayer
 {
     public:
-    virtual void play(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
+    virtual void move(Position* res, GameState* myState, GameState* oppState, int myScore, int oppScore, int turn, int newPips);
 };
+
+class GreedyPlayer: public AbstractGreedyMover, public AbstractRandomPlacer {};
+
+class SmartGreedyPlayer: public AbstractSmartGreedyMover, public AbstractRandomPlacer {};
