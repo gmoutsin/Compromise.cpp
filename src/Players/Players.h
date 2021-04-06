@@ -92,7 +92,7 @@ class AbstractRandomPlacer: public virtual AbstractPlayer
     public:
     
     /**
-     * This function provides random pip placement. 
+     * A function that provides random pip placement. 
      * 
      * @note This function does not return anything. The player's pip placement is stored in the first argument.
      * 
@@ -114,7 +114,7 @@ class AbstractRandomMover: public virtual AbstractPlayer
     public:
 
     /**
-     * This function provides a random move. 
+     * A function that provides a random move. 
      * 
      * @note This function does not return anything. The player's move is stored in the first argument.
      * 
@@ -132,7 +132,7 @@ class AbstractRandomMover: public virtual AbstractPlayer
 };
 
 /**
- * This player plays randomly.
+ * A player that plays randomly.
  *
  * Both move() and place() functions of the class give random results.
  */
@@ -143,7 +143,7 @@ class AbstractGreedyPlacer: public virtual AbstractPlayer
     public:
 
     /**
-     * This function provides pip placement. 
+     * A function that provides pip placement. 
      * 
      * This function first calls the move() function and then it places the pips
      * randomly making sure that they wouldn't be excluded by the move.
@@ -172,7 +172,7 @@ class AbstractMyopicMover: public virtual AbstractPlayer
     public:
 
     /**
-     * This function provides a move. 
+     * A function that provides a move which does not block its best positions. 
      * 
      * This function initially subracts the opponents pips from the player's pips for each position.
      * Then it finds the best position for the player and excludes
@@ -200,7 +200,7 @@ class AbstractMyopicMover: public virtual AbstractPlayer
 };
 
 /**
- * This player makes sure that it doesn't exclude its best positions.
+ * A player that makes sure that it doesn't exclude its best positions.
  */
 class MyopicPlayer: public AbstractMyopicMover, public AbstractGreedyPlacer {};
 

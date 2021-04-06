@@ -47,7 +47,7 @@ void CompromiseGame::printState()
 
 void CompromiseGame::resetGame() 
 {
-    srand(rand() + (unsigned)time(0));
+    srand( (unsigned)time(0) );
     score1 = 0;
     score2 = 0;
     turn = 0;
@@ -246,7 +246,7 @@ void CompromiseGame::play_unsafe()
 
 CompromiseGame::CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype, bool noties) 
 {
-    srand(rand() + (unsigned)time(0));
+    srand( (unsigned)time(0) );
     p1 = player1;
     p2 = player2;
     newPips = newpips;

@@ -32,6 +32,11 @@ void GameState::set(Position p, int v)
     data[9*p[0]+3*p[1]+p[2]] = v;
 }
 
+int GameState::get(Position p)
+{
+    return data[9*p[0]+3*p[1]+p[2]];
+}
+
 void GameState::inc(Position p)
 {
     data[9*p[0]+3*p[1]+p[2]] += 1;
