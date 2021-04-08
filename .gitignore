@@ -37,3 +37,4 @@ build/*
 debug/*
 include/*
 lib/*
+doc/*
