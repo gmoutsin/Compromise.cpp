@@ -11,13 +11,13 @@
 using Position = std::array<std::int8_t, 3>;
 
 /**
- * PlacementArray is a different name for std::vector<Position>
+ * PlacementArray is a different name for std::vector<Position>.
  */
 using PlacementArray = std::vector<Position>;
 
 /**
  * This function returns true if the position is valid, i.e. all coordinates
- * are between 0 and 2, and returns false otherwise
+ * are between 0 and 2, and returns false otherwise.
  * 
  * @param p the Position to be checked.
  * 
@@ -27,7 +27,7 @@ bool validPosisionQ(Position p);
 
 /**
  * This function returns false if the position is valid, i.e. all coordinates
- * are between 0 and 2, and returns true otherwise
+ * are between 0 and 2, and returns true otherwise.
  * 
  * @param p the Position to be checked.
  * 
@@ -54,7 +54,7 @@ class GameState
     public:
 
     /**
-     * The array which holds the data
+     * The array which holds the data.
      */
     std::array<int, 27> data;
     
@@ -66,7 +66,7 @@ class GameState
      * @param k the third coordinates
      * 
      * @note There is not unsafe get that accepts only integer as index
-     * because the container array is public and can be accessed directly
+     * because the container array is public and can be accessed directly.
      * 
      * @see get(int,int,int) get(Position)
      */
@@ -81,14 +81,14 @@ class GameState
      * @param v the value to be set
      * 
      * @note There is not unsafe set that accepts only integer as index
-     * because the container array is public and can be accessed directly
+     * because the container array is public and can be accessed directly.
      * 
      * @see set(int,int,int,int) set(Position,int)
      */
     void uset(int i, int j, int k, int v);
 
     /**
-     * This set function accepts a position as an argument
+     * This set function accepts a position as an argument.
      * 
      * @param p the Position to be set to the value
      * @param v the value to be set
@@ -100,7 +100,7 @@ class GameState
     void set(Position p, int v);
 
     /**
-     * This get function accepts a position as an argument
+     * This get function accepts a position as an argument.
      * 
      * @param p the Position to be returned
      * 
@@ -111,7 +111,7 @@ class GameState
     int get(Position p);
 
     /**
-     * Increases the value at Position by one
+     * Increases the value at Position by one.
      * 
      * @param p the Position to be increased
      * 
@@ -122,7 +122,7 @@ class GameState
     void inc(Position p);
 
     /**
-     * Increases the value at position by one
+     * Increases the value at position by one.
      * 
      * @param i the first coordinate
      * @param j the second coordinate
@@ -135,7 +135,7 @@ class GameState
     void inc(int i, int j, int k);
 
     /**
-     * Safe set, checks bounds before trying to access the array
+     * Safe set, checks bounds before trying to access the array.
      * 
      * @param i the first coordinate
      * @param j the second coordinate
@@ -146,7 +146,7 @@ class GameState
     void set(int i, int j, int k, int v);
 
     /**
-     * Safe set, checks bounds before trying to access the array
+     * Safe set, checks bounds before trying to access the array.
      * 
      * @param i the index
      * 
@@ -155,7 +155,7 @@ class GameState
     void set(int i, int v);
 
     /**
-     * Safe get, checks bounds before trying to access the array
+     * Safe get, checks bounds before trying to access the array.
      * 
      * @param i the first coordinate
      * @param j the second coordinate
@@ -166,7 +166,7 @@ class GameState
     int get(int i, int j, int k);
 
     /**
-     * Safe get, checks bounds before trying to access the array
+     * Safe get, checks bounds before trying to access the array.
      * 
      * @param i the index
      * 
@@ -175,21 +175,21 @@ class GameState
     int get(int i);
 
     /**
-     * Subtracts the GameState given as an argument from the current object position-wise
+     * Subtracts the GameState given as an argument from the current object position-wise.
      * 
      * @param s a pointer to the GameState to be subracted
      */
     void minus(GameState* s);
 
     /**
-     * Compares the argument GameState to the current object position-wise
+     * Compares the argument GameState to the current object position-wise.
      * 
      * @param s the GameState to be compared
      */
     bool operator==(GameState s);
 
     /**
-     * Copies the values of the argument GameState to the current object
+     * Copies the values of the argument GameState to the current object.
      * 
      * @param s a pointer to the GameState to be subracted
      */
@@ -199,7 +199,7 @@ class GameState
 
 /**
  * This class is identical to the GameState class, but all members are protected
- * has CompromiseGame as a friend class
+ * has CompromiseGame as a friend class.
  */
 class InnerGameState: protected GameState
 {
