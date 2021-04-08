@@ -47,7 +47,7 @@ void CompromiseGame::printState()
 
 void CompromiseGame::resetGame() 
 {
-    srand(rand() + (unsigned)time(0));
+    srand( (unsigned)time(0) );
     score1 = 0;
     score2 = 0;
     turn = 0;
@@ -148,9 +148,9 @@ void CompromiseGame::getMoves()
     else
     {
         prepareDisposableStates();
-        p1->play(move1, disp1, disp2, score1, score2, turn, newPips);
+        p1->move(move1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->play(move2, disp2, disp1, score2, score1, turn, newPips);
+        p2->move(move2, disp2, disp1, score2, score1, turn, newPips);
         if (invalidPosisionQ(*move1))
         {
             /* throw error */
@@ -176,9 +176,9 @@ void CompromiseGame::getMoves_unsafe()
     else
     {
         prepareDisposableStates();
-        p1->play(move1, disp1, disp2, score1, score2, turn, newPips);
+        p1->move(move1, disp1, disp2, score1, score2, turn, newPips);
         prepareDisposableStates();
-        p2->play(move2, disp2, disp1, score2, score1, turn, newPips);
+        p2->move(move2, disp2, disp1, score2, score1, turn, newPips);
     }
 };
 
@@ -246,7 +246,7 @@ void CompromiseGame::play_unsafe()
 
 CompromiseGame::CompromiseGame(AbstractPlayer* player1, AbstractPlayer* player2, int newpips, int len, int gametype, bool noties) 
 {
-    srand(rand() + (unsigned)time(0));
+    srand( (unsigned)time(0) );
     p1 = player1;
     p2 = player2;
     newPips = newpips;

@@ -10,6 +10,13 @@ bool invalidPosisionQ(Position p)
     return p[0] < 0 || p[0] > 2 || p[1] < 0 || p[1] > 2 || p[2] < 0 || p[2] > 2;
 }
 
+void random(Position* pos)
+{
+    (*pos)[0] = rand() % 3;
+    (*pos)[1] = rand() % 3;
+    (*pos)[2] = rand() % 3;
+}
+
 int GameState::uget(int i, int j, int k) 
 { // unsafe get, no bound checking
     return data[9*i+3*j+k];
@@ -23,6 +30,11 @@ void GameState::uset(int i, int j, int k, int val)
 void GameState::set(Position p, int v)
 {
     data[9*p[0]+3*p[1]+p[2]] = v;
+}
+
+int GameState::get(Position p)
+{
+    return data[9*p[0]+3*p[1]+p[2]];
 }
 
 void GameState::inc(Position p)

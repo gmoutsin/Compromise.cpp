@@ -38,7 +38,7 @@ int main()
     using std::chrono::milliseconds;
     int res[3] = {0,0,0};
     int score[2];
-    int times = 10000;
+    int times = 100000;
     int type = 2;
     bool noties = false;
     int rounds = 10;
