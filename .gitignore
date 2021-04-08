@@ -31,11 +31,8 @@
 *.out
 *.app
 
-include/ComGameTypes.h
-include/Players.h
-include/ComGame.h
-
 .vscode/*
+include/*
 bin/*
 build/*
 debug/*
